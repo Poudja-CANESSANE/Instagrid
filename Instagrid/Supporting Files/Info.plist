@@ -60,5 +60,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We would like to access your internal storage to save this photo montage otherwise it will fail.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Delm-Medium.otf</string>
+		<string>ThirstySoftRegular.otf</string>
+	</array>
 </dict>
 </plist>
