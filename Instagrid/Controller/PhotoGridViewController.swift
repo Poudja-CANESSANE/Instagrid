@@ -97,37 +97,57 @@ class PhotoGridViewController: UIViewController {
         
     }
     
+    
     @objc private func didSwipeToShare() {
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-            self.gridView.transform = CGAffineTransform(translationX: 0, y: -30)
-            self.gridView.alpha = 0
-            self.swipeToShareLabel.transform = CGAffineTransform(translationX: 0, y: -30)
-            self.swipeToShareLabel.alpha = 0
-            self.arrowImageView.transform = CGAffineTransform(translationX: 0, y: -30)
-            self.arrowImageView.alpha = 0
+            self.setupViewsToAnimateOnSwipe()
         }) { (_) in
             
             let activityController = UIActivityViewController(activityItems: [self.convertGridViewAsImage()], applicationActivities: nil)
+            
             self.present(activityController, animated: true)
             activityController.completionWithItemsHandler = {
                 (activityType: UIActivity.ActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
                 
                 UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-                    self.gridView.transform = .identity
-                    self.gridView.alpha = 1
-                    self.swipeToShareLabel.transform = .identity
-                    self.swipeToShareLabel.alpha = 1
-                    self.arrowImageView.transform = .identity
-                    self.arrowImageView.alpha = 1
+                    self.setupViewsToAnimateOnCompletionOfActivityViewController()
                 })
             }
         }
     }
     
     
+    private func setupViewsToAnimateOnSwipe() {
+        setupViewToAnimateOnSwipe(gridView)
+        setupViewToAnimateOnSwipe(swipeToShareLabel)
+        setupViewToAnimateOnSwipe(arrowImageView)
+    }
+    
+    
+    private func setupViewToAnimateOnSwipe(_ view: UIView) {
+        view.transform = interfaceOrientation.isPortrait ?
+        CGAffineTransform(translationX: 0, y: -30) :
+        CGAffineTransform(translationX: -30, y: 0)
+        view.alpha = 0
+    }
+    
+    
+    private func setupViewsToAnimateOnCompletionOfActivityViewController() {
+        setupViewToAnimateOnCompletionOfActivityViewController(gridView)
+        setupViewToAnimateOnCompletionOfActivityViewController(swipeToShareLabel)
+        setupViewToAnimateOnCompletionOfActivityViewController(arrowImageView)
+    }
+    
+    
+    private func setupViewToAnimateOnCompletionOfActivityViewController(_ view: UIView) {
+        view.transform = .identity
+        view.alpha = 1
+    }
+    
+    
     private func convertGridViewAsImage() -> UIImage {
-        let renderer = UIGraphicsImageRenderer(bounds: self.gridView.bounds)
-        return renderer.image { self.gridView.layer.render(in: $0.cgContext) }
+        let renderer = UIGraphicsImageRenderer(bounds: gridView.bounds)
+        return renderer.image { gridView.layer.render(in: $0.cgContext) }
     }
     
 }
