@@ -6,11 +6,6 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="ThirstySoftRegular.otf">
-            <string>ThirstySoftRegular</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="EHf-IW-A2E">
@@ -20,17 +15,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Instagrid" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0NU-7P-9el">
-                                <rect key="frame" x="102" y="415.5" width="210" height="65"/>
-                                <fontDescription key="fontDescription" name="ThirstySoftRegular" family="Thirsty Soft" pointSize="50"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="Instagrid" translatesAutoresizingMaskIntoConstraints="NO" id="yfe-oS-YqH">
+                                <rect key="frame" x="132" y="424" width="150" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="yfe-oS-YqH" secondAttribute="height" multiplier="41:13" id="4x0-7K-Qd6"/>
+                                    <constraint firstAttribute="width" constant="150" id="7I2-mU-Zww"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.71764705880000002" green="0.84313725490000002" blue="0.8980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="0NU-7P-9el" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="R8e-YF-yLo"/>
-                            <constraint firstItem="0NU-7P-9el" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="tmh-7Y-sLf"/>
+                            <constraint firstItem="yfe-oS-YqH" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="hjj-F9-yjv"/>
+                            <constraint firstItem="yfe-oS-YqH" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="nT1-UP-PCB"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -40,4 +36,7 @@
             <point key="canvasLocation" x="52.173913043478265" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Instagrid" width="41.5" height="13"/>
+    </resources>
 </document>
