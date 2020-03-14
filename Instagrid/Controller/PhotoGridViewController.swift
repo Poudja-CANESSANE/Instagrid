@@ -41,9 +41,10 @@ class PhotoGridViewController: UIViewController {
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        swipeGestureRecognizer.direction = windowInterfaceOrientation!.isLandscape ? .left : .up
-        swipeToShareLabel.text = windowInterfaceOrientation!.isLandscape ? "Swipe left to share" : "Swipe up to share"
-        arrowImageView.image = windowInterfaceOrientation!.isLandscape ? UIImage(named: "Arrow Left") : UIImage(named: "Arrow Up")
+        guard let windowInterfaceOrientation = windowInterfaceOrientation else { return }
+        swipeGestureRecognizer.direction = windowInterfaceOrientation.isLandscape ? .left : .up
+        swipeToShareLabel.text = windowInterfaceOrientation.isLandscape ? "Swipe left to share" : "Swipe up to share"
+        arrowImageView.image = windowInterfaceOrientation.isLandscape ? UIImage(named: "Arrow Left") : UIImage(named: "Arrow Up")
         
     }
     
@@ -125,7 +126,8 @@ class PhotoGridViewController: UIViewController {
     
     
     private func setupViewToAnimateOnSwipe(_ view: UIView) {
-        view.transform = windowInterfaceOrientation!.isPortrait ?
+        guard let windowInterfaceOrientation = windowInterfaceOrientation else { return }
+        view.transform = windowInterfaceOrientation.isPortrait ?
         CGAffineTransform(translationX: 0, y: -30) :
         CGAffineTransform(translationX: -30, y: 0)
         view.alpha = 0
