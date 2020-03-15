@@ -19,11 +19,19 @@ class PhotoGridViewController: UIViewController {
     @IBOutlet weak var bottomStackView: UIStackView!
     @IBOutlet weak var swipeToShareLabel: UILabel!
     @IBOutlet weak var arrowImageView: UIImageView!
+    @IBOutlet weak var layoutButton1: UIButton!
+    @IBOutlet weak var layoutButton2: UIButton!
+    @IBOutlet weak var layoutButton3: UIButton!
+    @IBOutlet weak var layoutButton4: UIButton!
+    
     
 // MARK: Methods
     
     ///It builds the chosen photoLayout in the photoGridView when the user tap on one of the layout button (those at the bottom of the screen)
     @IBAction func didTapOnLayoutButton(sender: UIButton) {
+        
+        setupLayoutButtonBackgroundImage(sender)
+        
         let photoLayout = sender.tag == 3 ?
             photoLayoutProvider.getRandomPhotoLayout() :
             photoLayoutProvider.photoLayouts[sender.tag]
@@ -61,6 +69,39 @@ class PhotoGridViewController: UIViewController {
     }
     
 // MARK: Methods
+    
+// MARK: Handle Layout Buttons
+    
+    ///It sets the tapped layout button background image to selected and the other layout buttons to .none
+    private func setupLayoutButtonBackgroundImage(_ sender: UIButton) {
+        switch sender.tag {
+        case 0:
+            layoutButton1.setBackgroundImage(UIImage(named: "Selected"), for: .normal)
+            layoutButton2.setBackgroundImage(.none, for: .normal)
+            layoutButton3.setBackgroundImage(.none, for: .normal)
+            layoutButton4.setBackgroundImage(.none, for: .normal)
+        case 1:
+            layoutButton1.setBackgroundImage(.none, for: .normal)
+            layoutButton2.setBackgroundImage(UIImage(named: "Selected"), for: .normal)
+            layoutButton3.setBackgroundImage(.none, for: .normal)
+            layoutButton4.setBackgroundImage(.none, for: .normal)
+        case 2:
+            layoutButton1.setBackgroundImage(.none, for: .normal)
+            layoutButton2.setBackgroundImage(.none, for: .normal)
+            layoutButton3.setBackgroundImage(UIImage(named: "Selected"), for: .normal)
+            layoutButton4.setBackgroundImage(.none, for: .normal)
+        case 3:
+            layoutButton1.setBackgroundImage(.none, for: .normal)
+            layoutButton2.setBackgroundImage(.none, for: .normal)
+            layoutButton3.setBackgroundImage(.none, for: .normal)
+            layoutButton4.setBackgroundImage(UIImage(named: "Selected"), for: .normal)
+        default:
+            layoutButton1.setBackgroundImage(.none, for: .normal)
+            layoutButton2.setBackgroundImage(.none, for: .normal)
+            layoutButton3.setBackgroundImage(.none, for: .normal)
+            layoutButton4.setBackgroundImage(.none, for: .normal)
+        }
+    }
     
 // MARK: Handle photoGridView Layout
     
