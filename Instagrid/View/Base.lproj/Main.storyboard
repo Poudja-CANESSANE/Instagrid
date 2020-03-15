@@ -220,6 +220,6 @@
         <image name="Layout 1" width="27" height="27"/>
         <image name="Layout 2" width="27" height="27"/>
         <image name="Layout 3" width="27" height="27"/>
-        <image name="Layout 4" width="81" height="81"/>
+        <image name="Layout 4" width="81" height="81.5"/>
     </resources>
 </document>
