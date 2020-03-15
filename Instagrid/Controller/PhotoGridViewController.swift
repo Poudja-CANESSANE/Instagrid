@@ -10,14 +10,19 @@ import UIKit
 
 class PhotoGridViewController: UIViewController {
     
+// MARK: - INTERNAL
     
+// MARK: Properties
     
-    @IBOutlet weak var gridView: UIView!
+    @IBOutlet weak var photoGridView: UIView!
     @IBOutlet weak var topStackView: UIStackView!
     @IBOutlet weak var bottomStackView: UIStackView!
     @IBOutlet weak var swipeToShareLabel: UILabel!
     @IBOutlet weak var arrowImageView: UIImageView!
     
+// MARK: Methods
+    
+    ///It builds the chosen photoLayout in the photoGridView when the user tap on one of the layout button (those at the bottom of the screen)
     @IBAction func didTapOnLayoutButton(sender: UIButton) {
         let photoLayout = sender.tag == 3 ?
             photoLayoutProvider.getRandomPhotoLayout() :
@@ -26,18 +31,12 @@ class PhotoGridViewController: UIViewController {
         setupLayout(from: photoLayout)
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupSwipeToShare()
         
     }
-    /// Interface orientation
-    private var windowInterfaceOrientation: UIInterfaceOrientation? {
-        return UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
-    }
-    
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
@@ -48,11 +47,24 @@ class PhotoGridViewController: UIViewController {
         
     }
     
+// MARK: - PRIVATE
+    
+// MARK: Properties
     
     private let photoLayoutProvider = PhotoLayoutProvider()
     private var currentPhotoButton: UIButton?
     private var swipeGestureRecognizer: UISwipeGestureRecognizer!
     
+    ///Interface orientation
+    private var windowInterfaceOrientation: UIInterfaceOrientation? {
+        return UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+    }
+    
+// MARK: Methods
+    
+// MARK: Handle photoGridView Layout
+    
+    ///It clears the photoGridView and adds the correct quantity of UIButton in the topStackView and the bottomStackView
     private func setupLayout(from photoLayout: PhotoLayout) {
         resetLayout()
         
@@ -60,17 +72,20 @@ class PhotoGridViewController: UIViewController {
         addPhotoButtons(stackView: bottomStackView, quantity: photoLayout.bottomPhotoCount)
     }
     
+    ///It clears the topStackView and the bottomStackView
     private func resetLayout() {
         reset(stackView: topStackView)
         reset(stackView: bottomStackView)
     }
     
+    ///It clears a UIStackView
     private func reset(stackView: UIStackView) {
         for subview in stackView.arrangedSubviews {
             stackView.removeArrangedSubview(subview)
         }
     }
     
+    ///It adds the given quantity of UIButton in a UIStackView
     private func addPhotoButtons(stackView: UIStackView, quantity: Int) {
         for _ in 1...quantity {
             let photoButton = UIButton()
@@ -81,6 +96,7 @@ class PhotoGridViewController: UIViewController {
         }
     }
     
+    ///The user can choose a photo from his photo library when he has tapped on a photo button (those in the photoGridView)
     @objc private func onPhotoButtonTapped(from button: UIButton) {
         currentPhotoButton = button
         
@@ -90,7 +106,9 @@ class PhotoGridViewController: UIViewController {
         self.present(imagePickerController, animated: true)
     }
     
+// MARK: Handle Swipe
     
+    ///It adds to the view a UISwipeGestureRecognizer
     private func setupSwipeToShare() {
         swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeToShare))
         swipeGestureRecognizer.numberOfTouchesRequired = 1
@@ -98,13 +116,13 @@ class PhotoGridViewController: UIViewController {
         
     }
     
-    
+    ///It presents a UIActivityViewController when the user has swipped. An animation occurs before and after this.
     @objc private func didSwipeToShare() {
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
             self.setupViewsToAnimateOnSwipe()
         }) { (_) in
             
-            let activityController = UIActivityViewController(activityItems: [self.convertGridViewAsImage()], applicationActivities: nil)
+            let activityController = UIActivityViewController(activityItems: [self.convertPhotoGridViewAsImage()], applicationActivities: nil)
             
             self.present(activityController, animated: true)
             activityController.completionWithItemsHandler = {
@@ -117,15 +135,23 @@ class PhotoGridViewController: UIViewController {
         }
     }
     
-    
-    private func setupViewsToAnimateOnSwipe() {
-        setupViewToAnimateOnSwipe(gridView)
-        setupViewToAnimateOnSwipe(swipeToShareLabel)
-        setupViewToAnimateOnSwipe(arrowImageView)
+    ///It converts the photoGridView into an image
+    private func convertPhotoGridViewAsImage() -> UIImage {
+        let renderer = UIGraphicsImageRenderer(bounds: photoGridView.bounds)
+        return renderer.image { photoGridView.layer.render(in: $0.cgContext) }
     }
     
+// MARK: Handle Animations
     
-    private func setupViewToAnimateOnSwipe(_ view: UIView) {
+    ///The photoGridView, swipeToShareLabel and arrowImageView will transform according to the interface orientation and their alpha will be set to 0
+    private func setupViewsToAnimateOnSwipe() {
+        setupViewToAnimateOnSwipeAccordingToInterfaceOrientation(photoGridView)
+        setupViewToAnimateOnSwipeAccordingToInterfaceOrientation(swipeToShareLabel)
+        setupViewToAnimateOnSwipeAccordingToInterfaceOrientation(arrowImageView)
+    }
+    
+    ///It transforms a UIView and sets its alpha to 0 according to the interface orientation
+    private func setupViewToAnimateOnSwipeAccordingToInterfaceOrientation(_ view: UIView) {
         guard let windowInterfaceOrientation = windowInterfaceOrientation else { return }
         view.transform = windowInterfaceOrientation.isPortrait ?
         CGAffineTransform(translationX: 0, y: -30) :
@@ -133,30 +159,25 @@ class PhotoGridViewController: UIViewController {
         view.alpha = 0
     }
     
-    
+    ///The photoGridView, swipeToShareLabel and arrowImageView will transform to .identity and their alpha will be set to 1
     private func setupViewsToAnimateOnCompletionOfActivityViewController() {
-        setupViewToAnimateOnCompletionOfActivityViewController(gridView)
+        setupViewToAnimateOnCompletionOfActivityViewController(photoGridView)
         setupViewToAnimateOnCompletionOfActivityViewController(swipeToShareLabel)
         setupViewToAnimateOnCompletionOfActivityViewController(arrowImageView)
     }
     
-    
+    ///It transforms a UIView to .identity and sets its alpha to 1
     private func setupViewToAnimateOnCompletionOfActivityViewController(_ view: UIView) {
         view.transform = .identity
         view.alpha = 1
     }
-    
-    
-    private func convertGridViewAsImage() -> UIImage {
-        let renderer = UIGraphicsImageRenderer(bounds: gridView.bounds)
-        return renderer.image { gridView.layer.render(in: $0.cgContext) }
-    }
-    
 }
 
+// MARK: - EXTENSIONS
 
 extension PhotoGridViewController: UIImagePickerControllerDelegate {
     
+    ///It sets the currentPhotoButton's image with the chosen image by the user
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         guard
