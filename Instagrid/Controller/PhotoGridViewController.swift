@@ -41,18 +41,12 @@ class PhotoGridViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupSwipeToShare()
-        
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        guard let windowInterfaceOrientation = windowInterfaceOrientation else { return }
-        swipeGestureRecognizer.direction = windowInterfaceOrientation.isLandscape ? .left : .up
-        swipeToShareLabel.text = windowInterfaceOrientation.isLandscape ? "Swipe left to share" : "Swipe up to share"
-        arrowImageView.image = windowInterfaceOrientation.isLandscape ? UIImage(named: "Arrow Left") : UIImage(named: "Arrow Up")
-        
+        setupViewsAccordingToInterfaceOrientation()
     }
     
 // MARK: - PRIVATE
@@ -69,6 +63,16 @@ class PhotoGridViewController: UIViewController {
     }
     
 // MARK: Methods
+    
+// MARK: Handle Interface Orientation
+    
+    ///It sets the swipeGestureRecognizer's direction, swipeToShareLabel's text and arrowImageView's image according to the interface orientation
+    private func setupViewsAccordingToInterfaceOrientation() {
+        guard let windowInterfaceOrientation = windowInterfaceOrientation else { return }
+        swipeGestureRecognizer.direction = windowInterfaceOrientation.isLandscape ? .left : .up
+        swipeToShareLabel.text = windowInterfaceOrientation.isLandscape ? "Swipe left to share" : "Swipe up to share"
+        arrowImageView.image = windowInterfaceOrientation.isLandscape ? UIImage(named: "Arrow Left") : UIImage(named: "Arrow Up")
+    }
     
 // MARK: Handle Layout Buttons
     
@@ -152,6 +156,7 @@ class PhotoGridViewController: UIViewController {
     ///It adds to the view a UISwipeGestureRecognizer
     private func setupSwipeToShare() {
         swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeToShare))
+        setupViewsAccordingToInterfaceOrientation()
         swipeGestureRecognizer.numberOfTouchesRequired = 1
         view.addGestureRecognizer(swipeGestureRecognizer)
         
