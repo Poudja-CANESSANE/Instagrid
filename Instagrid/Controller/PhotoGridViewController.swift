@@ -19,10 +19,10 @@ class PhotoGridViewController: UIViewController {
     @IBOutlet weak var bottomStackView: UIStackView!
     @IBOutlet weak var swipeToShareLabel: UILabel!
     @IBOutlet weak var arrowImageView: UIImageView!
-    @IBOutlet weak var layoutButton1: UIButton!
-    @IBOutlet weak var layoutButton2: UIButton!
-    @IBOutlet weak var layoutButton3: UIButton!
-    @IBOutlet weak var layoutButton4: UIButton!
+    
+    @IBOutlet var layoutButtons: [UIButton]!
+    
+    
     
     
 // MARK: Methods
@@ -44,9 +44,12 @@ class PhotoGridViewController: UIViewController {
         setupSwipeToShare()
     }
     
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        setupViewsAccordingToInterfaceOrientation()
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        coordinator.animate(alongsideTransition: { (context) in
+            self.setupSwipeToShareViewsAccordingToInterfaceOrientation()
+        })
     }
     
 // MARK: - PRIVATE
@@ -54,6 +57,7 @@ class PhotoGridViewController: UIViewController {
 // MARK: Properties
     
     private let photoLayoutProvider = PhotoLayoutProvider()
+    ///This is the photo button tapped by the user
     private var currentPhotoButton: UIButton?
     private var swipeGestureRecognizer: UISwipeGestureRecognizer!
     
@@ -62,12 +66,18 @@ class PhotoGridViewController: UIViewController {
         return UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
     }
     
-// MARK: Methods
+    ///To know if there is at least 1 photo source available either photo library or camera
+    private var isOnePhotoSourceAvailable: Bool {
+        UIImagePickerController.isSourceTypeAvailable(.photoLibrary) ||
+        UIImagePickerController.isSourceTypeAvailable(.camera)
+    }
     
+// MARK: Methods
+
 // MARK: Handle Interface Orientation
     
     ///It sets the swipeGestureRecognizer's direction, swipeToShareLabel's text and arrowImageView's image according to the interface orientation
-    private func setupViewsAccordingToInterfaceOrientation() {
+    private func setupSwipeToShareViewsAccordingToInterfaceOrientation() {
         guard let windowInterfaceOrientation = windowInterfaceOrientation else { return }
         swipeGestureRecognizer.direction = windowInterfaceOrientation.isLandscape ? .left : .up
         swipeToShareLabel.text = windowInterfaceOrientation.isLandscape ? "Swipe left to share" : "Swipe up to share"
@@ -78,33 +88,10 @@ class PhotoGridViewController: UIViewController {
     
     ///It sets the tapped layout button background image to selected and the other layout buttons to .none
     private func setupLayoutButtonBackgroundImage(_ sender: UIButton) {
-        switch sender.tag {
-        case 0:
-            layoutButton1.setBackgroundImage(UIImage(named: "Selected"), for: .normal)
-            layoutButton2.setBackgroundImage(.none, for: .normal)
-            layoutButton3.setBackgroundImage(.none, for: .normal)
-            layoutButton4.setBackgroundImage(.none, for: .normal)
-        case 1:
-            layoutButton1.setBackgroundImage(.none, for: .normal)
-            layoutButton2.setBackgroundImage(UIImage(named: "Selected"), for: .normal)
-            layoutButton3.setBackgroundImage(.none, for: .normal)
-            layoutButton4.setBackgroundImage(.none, for: .normal)
-        case 2:
-            layoutButton1.setBackgroundImage(.none, for: .normal)
-            layoutButton2.setBackgroundImage(.none, for: .normal)
-            layoutButton3.setBackgroundImage(UIImage(named: "Selected"), for: .normal)
-            layoutButton4.setBackgroundImage(.none, for: .normal)
-        case 3:
-            layoutButton1.setBackgroundImage(.none, for: .normal)
-            layoutButton2.setBackgroundImage(.none, for: .normal)
-            layoutButton3.setBackgroundImage(.none, for: .normal)
-            layoutButton4.setBackgroundImage(UIImage(named: "Selected"), for: .normal)
-        default:
-            layoutButton1.setBackgroundImage(.none, for: .normal)
-            layoutButton2.setBackgroundImage(.none, for: .normal)
-            layoutButton3.setBackgroundImage(.none, for: .normal)
-            layoutButton4.setBackgroundImage(.none, for: .normal)
-        }
+        layoutButtons.forEach { $0.setBackgroundImage(.none, for: .normal) }
+        
+        let layoutButtonToSelect = layoutButtons[sender.tag]
+        layoutButtonToSelect.setBackgroundImage(UIImage(named: "Selected"), for: .normal)
     }
     
 // MARK: Handle photoGridView Layout
@@ -141,14 +128,72 @@ class PhotoGridViewController: UIViewController {
         }
     }
     
-    ///The user can choose a photo from his photo library when he has tapped on a photo button (those in the photoGridView)
+    ///The user can choose a photo from his photo library or take a photo with his camera when he has tapped on a photo button (those in the photoGridView)
     @objc private func onPhotoButtonTapped(from button: UIButton) {
+        guard isOnePhotoSourceAvailable else {
+            presentSourcesNotAvailableAlert()
+            return
+        }
+        
         currentPhotoButton = button
         
+        presentSourcesChoiceAlert()
+    }
+    
+//MARK: Handle Alerts and ImagePickerController
+    
+    ///It presents an alert telling that any photo sources are available
+    private func presentSourcesNotAvailableAlert() {
+        let alertController = UIAlertController(title: "Photo Sources Unavailable", message: "Your device doesn't support any photo sources", preferredStyle: .alert)
+        
+        let confirmAlertAction = UIAlertAction(title: "Okay", style: .default)
+        
+        alertController.addAction(confirmAlertAction)
+        
+        present(alertController, animated: true)
+    }
+    
+    ///It presents an alert asking the user to choose a photo source: photo library or camera
+    private func presentSourcesChoiceAlert() {
+        
+        let alertController = UIAlertController(title: "Choose a source", message: nil, preferredStyle: .actionSheet)
+        
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            let photoAlertAction = UIAlertAction(
+                title: "Photo Library",
+                style: .default,
+                handler: photoAlertHandler(alertAction:))
+            
+            alertController.addAction(photoAlertAction)
+        }
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let cameraAlertAction = UIAlertAction(
+                title: "Camera",
+                style: .default,
+                handler: cameraAlertHandler(alertAction:))
+
+            alertController.addAction(cameraAlertAction)
+        }
+        
+        present(alertController, animated: true)
+    }
+    ///It presents a UIImagePickerController with .photolibrary as source type
+    private func photoAlertHandler(alertAction: UIAlertAction) {
+        presentImagePickerController(from: .photoLibrary)
+    }
+    
+    ///It presents a UIImagePickerController with .camera as source type
+    private func cameraAlertHandler(alertAction: UIAlertAction) {
+        presentImagePickerController(from: .camera)
+    }
+    
+    ///It presents a UIImagePickerController with the correct source type
+    private func presentImagePickerController(from source: UIImagePickerController.SourceType) {
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
-        imagePickerController.sourceType = .photoLibrary
-        self.present(imagePickerController, animated: true)
+        imagePickerController.sourceType = source
+        present(imagePickerController, animated: true)
     }
     
 // MARK: Handle Swipe
@@ -156,7 +201,7 @@ class PhotoGridViewController: UIViewController {
     ///It adds to the view a UISwipeGestureRecognizer
     private func setupSwipeToShare() {
         swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeToShare))
-        setupViewsAccordingToInterfaceOrientation()
+        setupSwipeToShareViewsAccordingToInterfaceOrientation()
         swipeGestureRecognizer.numberOfTouchesRequired = 1
         view.addGestureRecognizer(swipeGestureRecognizer)
         
@@ -164,20 +209,20 @@ class PhotoGridViewController: UIViewController {
     
     ///It presents a UIActivityViewController when the user has swipped. An animation occurs before and after this.
     @objc private func didSwipeToShare() {
+        let activityController = UIActivityViewController(
+            activityItems: [convertPhotoGridViewAsImage()],
+            applicationActivities: nil)
+        
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
             self.setupViewsToAnimateOnSwipe()
-        }) { (_) in
-            
-            let activityController = UIActivityViewController(activityItems: [self.convertPhotoGridViewAsImage()], applicationActivities: nil)
-            
+        }, completion: { (_) in
             self.present(activityController, animated: true)
-            activityController.completionWithItemsHandler = {
-                (activityType: UIActivity.ActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
-                
-                UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-                    self.setupViewsToAnimateOnCompletionOfActivityViewController()
-                })
-            }
+        })
+        
+        activityController.completionWithItemsHandler = { (_, _, _, _) in
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+                self.setupViewsToAnimateOnCompletionOfActivityViewController()
+            })
         }
     }
     
@@ -200,8 +245,8 @@ class PhotoGridViewController: UIViewController {
     private func setupViewToAnimateOnSwipeAccordingToInterfaceOrientation(_ view: UIView) {
         guard let windowInterfaceOrientation = windowInterfaceOrientation else { return }
         view.transform = windowInterfaceOrientation.isPortrait ?
-        CGAffineTransform(translationX: 0, y: -30) :
-        CGAffineTransform(translationX: -30, y: 0)
+            CGAffineTransform(translationX: 0, y: -30) :
+            CGAffineTransform(translationX: -30, y: 0)
         view.alpha = 0
     }
     

@@ -202,13 +202,13 @@
                     <connections>
                         <outlet property="arrowImageView" destination="rmH-nu-Anr" id="HYb-1O-HR4"/>
                         <outlet property="bottomStackView" destination="7sE-gy-35g" id="1WC-Z4-ZMu"/>
-                        <outlet property="layoutButton1" destination="Wvr-kZ-kua" id="vVU-yD-CDy"/>
-                        <outlet property="layoutButton2" destination="KmX-Cb-awc" id="Cte-jF-sfm"/>
-                        <outlet property="layoutButton3" destination="bRV-wa-r2D" id="0OG-Tg-VJ1"/>
-                        <outlet property="layoutButton4" destination="G5f-FR-uCi" id="tjQ-BT-cun"/>
                         <outlet property="photoGridView" destination="Nmx-BP-vp0" id="rEP-GN-6Dp"/>
                         <outlet property="swipeToShareLabel" destination="6lR-Gk-k9I" id="9gW-51-aMy"/>
                         <outlet property="topStackView" destination="ClC-Jc-L3V" id="cU9-Sw-USM"/>
+                        <outletCollection property="layoutButtons" destination="Wvr-kZ-kua" collectionClass="NSMutableArray" id="cQ4-5I-4iz"/>
+                        <outletCollection property="layoutButtons" destination="KmX-Cb-awc" collectionClass="NSMutableArray" id="gpe-Gh-82S"/>
+                        <outletCollection property="layoutButtons" destination="bRV-wa-r2D" collectionClass="NSMutableArray" id="wPk-5K-6Qp"/>
+                        <outletCollection property="layoutButtons" destination="G5f-FR-uCi" collectionClass="NSMutableArray" id="y4D-d2-Xnf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
