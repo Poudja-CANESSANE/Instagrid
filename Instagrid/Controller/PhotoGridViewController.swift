@@ -57,13 +57,18 @@ class PhotoGridViewController: UIViewController {
 // MARK: Properties
     
     private let photoLayoutProvider = PhotoLayoutProvider()
+    private var swipeGestureRecognizer: UISwipeGestureRecognizer!
+
     ///This is the photo button tapped by the user
     private var currentPhotoButton: UIButton?
-    private var swipeGestureRecognizer: UISwipeGestureRecognizer!
     
     ///Interface orientation
     private var windowInterfaceOrientation: UIInterfaceOrientation? {
-        return UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+        if #available(iOS 13, *) {
+            return UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+        } else {
+            return UIApplication.shared.statusBarOrientation
+        }
     }
     
     ///To know if there is at least 1 photo source available either photo library or camera
@@ -112,9 +117,7 @@ class PhotoGridViewController: UIViewController {
     
     ///It clears a UIStackView
     private func reset(stackView: UIStackView) {
-        for subview in stackView.arrangedSubviews {
-            stackView.removeArrangedSubview(subview)
-        }
+        stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
     }
     
     ///It adds the given quantity of UIButton in a UIStackView
@@ -247,7 +250,6 @@ class PhotoGridViewController: UIViewController {
         view.transform = windowInterfaceOrientation.isPortrait ?
             CGAffineTransform(translationX: 0, y: -30) :
             CGAffineTransform(translationX: -30, y: 0)
-        view.alpha = 0
     }
     
     ///The photoGridView, swipeToShareLabel and arrowImageView will transform to .identity and their alpha will be set to 1
