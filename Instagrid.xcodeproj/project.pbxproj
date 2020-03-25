@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC3C433E242BCF6B00702181 /* ThirstySoftRegular.otf in Resources */ = {isa = PBXBuildFile; fileRef = AC3C433C242BCF6B00702181 /* ThirstySoftRegular.otf */; };
+		AC3C433F242BCF6B00702181 /* Delm-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = AC3C433D242BCF6B00702181 /* Delm-Medium.otf */; };
 		ACAAEC2D24131E7A002B01E3 /* PhotoLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAAEC2C24131E7A002B01E3 /* PhotoLayout.swift */; };
 		ACAAEC2F24131EA5002B01E3 /* PhotoLayoutProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAAEC2E24131EA5002B01E3 /* PhotoLayoutProvider.swift */; };
-		ACBDE679241A52FC002BC06D /* Delm-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = ACBDE677241A52FC002BC06D /* Delm-Medium.otf */; };
-		ACBDE67A241A52FC002BC06D /* ThirstySoftRegular.otf in Resources */ = {isa = PBXBuildFile; fileRef = ACBDE678241A52FC002BC06D /* ThirstySoftRegular.otf */; };
 		ACE0F4D7240D6C23002F738E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE0F4D6240D6C23002F738E /* AppDelegate.swift */; };
 		ACE0F4D9240D6C23002F738E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE0F4D8240D6C23002F738E /* SceneDelegate.swift */; };
 		ACE0F4DB240D6C23002F738E /* PhotoGridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE0F4DA240D6C23002F738E /* PhotoGridViewController.swift */; };
@@ -21,10 +21,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AC3C433C242BCF6B00702181 /* ThirstySoftRegular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = ThirstySoftRegular.otf; path = ../../../../../../Downloads/ThirstySoftRegular.otf; sourceTree = "<group>"; };
+		AC3C433D242BCF6B00702181 /* Delm-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Delm-Medium.otf"; path = "../../../../../../Downloads/Delm-Medium.otf"; sourceTree = "<group>"; };
 		ACAAEC2C24131E7A002B01E3 /* PhotoLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLayout.swift; sourceTree = "<group>"; };
 		ACAAEC2E24131EA5002B01E3 /* PhotoLayoutProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLayoutProvider.swift; sourceTree = "<group>"; };
-		ACBDE677241A52FC002BC06D /* Delm-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Delm-Medium.otf"; path = "../../../../../../Downloads/Delm-Medium.otf"; sourceTree = "<group>"; };
-		ACBDE678241A52FC002BC06D /* ThirstySoftRegular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = ThirstySoftRegular.otf; path = ../../../../../../Downloads/ThirstySoftRegular.otf; sourceTree = "<group>"; };
 		ACE0F4D3240D6C23002F738E /* Instagrid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instagrid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACE0F4D6240D6C23002F738E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ACE0F4D8240D6C23002F738E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,8 +78,8 @@
 			isa = PBXGroup;
 			children = (
 				ACE0F4E4240D6C25002F738E /* Info.plist */,
-				ACBDE677241A52FC002BC06D /* Delm-Medium.otf */,
-				ACBDE678241A52FC002BC06D /* ThirstySoftRegular.otf */,
+				AC3C433D242BCF6B00702181 /* Delm-Medium.otf */,
+				AC3C433C242BCF6B00702181 /* ThirstySoftRegular.otf */,
 				ACE0F4EB240DBE85002F738E /* Default-568h@2x.png */,
 				ACE0F4D6240D6C23002F738E /* AppDelegate.swift */,
 				ACE0F4D8240D6C23002F738E /* SceneDelegate.swift */,
@@ -172,10 +172,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACBDE67A241A52FC002BC06D /* ThirstySoftRegular.otf in Resources */,
 				ACE0F4E3240D6C25002F738E /* LaunchScreen.storyboard in Resources */,
-				ACBDE679241A52FC002BC06D /* Delm-Medium.otf in Resources */,
 				ACE0F4EC240DBE85002F738E /* Default-568h@2x.png in Resources */,
+				AC3C433F242BCF6B00702181 /* Delm-Medium.otf in Resources */,
+				AC3C433E242BCF6B00702181 /* ThirstySoftRegular.otf in Resources */,
 				ACE0F4E0240D6C25002F738E /* Assets.xcassets in Resources */,
 				ACE0F4DE240D6C23002F738E /* Main.storyboard in Resources */,
 			);
