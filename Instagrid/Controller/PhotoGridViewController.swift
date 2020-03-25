@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import Photos
 
 class PhotoGridViewController: UIViewController {
     
-// MARK: - INTERNAL
+    // MARK: - INTERNAL
     
-// MARK: Properties
+    // MARK: Properties
     
     @IBOutlet weak var photoGridView: UIView!
     @IBOutlet weak var topStackView: UIStackView!
@@ -25,7 +26,7 @@ class PhotoGridViewController: UIViewController {
     
     
     
-// MARK: Methods
+    // MARK: Methods
     
     ///It builds the chosen photoLayout in the photoGridView when the user tap on one of the layout button (those at the bottom of the screen)
     @IBAction func didTapOnLayoutButton(sender: UIButton) {
@@ -52,13 +53,13 @@ class PhotoGridViewController: UIViewController {
         })
     }
     
-// MARK: - PRIVATE
+    // MARK: - PRIVATE
     
-// MARK: Properties
+    // MARK: Properties
     
     private let photoLayoutProvider = PhotoLayoutProvider()
     private var swipeGestureRecognizer: UISwipeGestureRecognizer!
-
+    
     ///This is the photo button tapped by the user
     private var currentPhotoButton: UIButton?
     
@@ -74,12 +75,12 @@ class PhotoGridViewController: UIViewController {
     ///To know if there is at least 1 photo source available either photo library or camera
     private var isOnePhotoSourceAvailable: Bool {
         UIImagePickerController.isSourceTypeAvailable(.photoLibrary) ||
-        UIImagePickerController.isSourceTypeAvailable(.camera)
+            UIImagePickerController.isSourceTypeAvailable(.camera)
     }
     
-// MARK: Methods
-
-// MARK: Handle Interface Orientation
+    // MARK: Methods
+    
+    // MARK: Handle Interface Orientation
     
     ///It sets the swipeGestureRecognizer's direction, swipeToShareLabel's text and arrowImageView's image according to the interface orientation
     private func setupSwipeToShareViewsAccordingToInterfaceOrientation() {
@@ -89,7 +90,7 @@ class PhotoGridViewController: UIViewController {
         arrowImageView.image = windowInterfaceOrientation.isLandscape ? UIImage(named: "Arrow Left") : UIImage(named: "Arrow Up")
     }
     
-// MARK: Handle Layout Buttons
+    // MARK: Handle Layout Buttons
     
     ///It sets the tapped layout button background image to selected and the other layout buttons to .none
     private func setupLayoutButtonBackgroundImage(_ sender: UIButton) {
@@ -99,7 +100,7 @@ class PhotoGridViewController: UIViewController {
         layoutButtonToSelect.setBackgroundImage(UIImage(named: "Selected"), for: .normal)
     }
     
-// MARK: Handle photoGridView Layout
+    // MARK: Handle photoGridView Layout
     
     ///It clears the photoGridView and adds the correct quantity of UIButton in the topStackView and the bottomStackView
     private func setupLayout(from photoLayout: PhotoLayout) {
@@ -139,11 +140,10 @@ class PhotoGridViewController: UIViewController {
         }
         
         currentPhotoButton = button
-        
         presentSourcesChoiceAlert()
     }
     
-//MARK: Handle Alerts and ImagePickerController
+    //MARK: Handle Alerts and ImagePickerController
     
     ///It presents an alert telling that any photo sources are available
     private func presentSourcesNotAvailableAlert() {
@@ -175,7 +175,7 @@ class PhotoGridViewController: UIViewController {
                 title: "Camera",
                 style: .default,
                 handler: cameraAlertHandler(alertAction:))
-
+            
             alertController.addAction(cameraAlertAction)
         }
         
@@ -199,7 +199,7 @@ class PhotoGridViewController: UIViewController {
         present(imagePickerController, animated: true)
     }
     
-// MARK: Handle Swipe
+    // MARK: Handle Swipe
     
     ///It adds to the view a UISwipeGestureRecognizer
     private func setupSwipeToShare() {
@@ -235,7 +235,7 @@ class PhotoGridViewController: UIViewController {
         return renderer.image { photoGridView.layer.render(in: $0.cgContext) }
     }
     
-// MARK: Handle Animations
+    // MARK: Handle Animations
     
     ///The photoGridView, swipeToShareLabel and arrowImageView will transform according to the interface orientation and their alpha will be set to 0
     private func setupViewsToAnimateOnSwipe() {
@@ -250,6 +250,7 @@ class PhotoGridViewController: UIViewController {
         view.transform = windowInterfaceOrientation.isPortrait ?
             CGAffineTransform(translationX: 0, y: -30) :
             CGAffineTransform(translationX: -30, y: 0)
+        view.alpha = 0
     }
     
     ///The photoGridView, swipeToShareLabel and arrowImageView will transform to .identity and their alpha will be set to 1
@@ -266,7 +267,7 @@ class PhotoGridViewController: UIViewController {
     }
 }
 
-// MARK: - EXTENSIONS
+    // MARK: - EXTENSIONS
 
 extension PhotoGridViewController: UIImagePickerControllerDelegate {
     
