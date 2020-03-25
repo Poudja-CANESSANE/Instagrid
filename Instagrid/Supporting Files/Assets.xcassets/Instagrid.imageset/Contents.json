@@ -1,18 +1,18 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
-      "filename" : "Instagrid.png",
+      "idiom" : "iphone",
+      "filename" : "Fichier 11.png",
       "scale" : "1x"
     },
     {
-      "idiom" : "universal",
-      "filename" : "Instagrid@2x.png",
+      "idiom" : "iphone",
+      "filename" : "Fichier 10.png",
       "scale" : "2x"
     },
     {
-      "idiom" : "universal",
-      "filename" : "Instagrid@3x.png",
+      "idiom" : "iphone",
+      "filename" : "Fichier 9.png",
       "scale" : "3x"
     }
   ],
