@@ -31,7 +31,7 @@ class PhotoGridViewController: UIViewController {
     ///It builds the chosen photoLayout in the photoGridView when the user tap on one of the layout button (those at the bottom of the screen)
     @IBAction func didTapOnLayoutButton(sender: UIButton) {
         
-        setupLayoutButtonBackgroundImage(sender)
+        setupLayoutButtonsBackgroundImage(sender)
         
         let photoLayout = sender.tag == 3 ?
             photoLayoutProvider.getRandomPhotoLayout() :
@@ -78,6 +78,11 @@ class PhotoGridViewController: UIViewController {
             UIImagePickerController.isSourceTypeAvailable(.camera)
     }
     
+    ///This array contains the views to animate on swipe and on the completion of UIActivityViewController
+    private var viewsToAnimate: [UIView] {
+        [photoGridView, swipeToShareLabel, arrowImageView]
+    }
+    
     // MARK: Methods
     
     // MARK: Handle Interface Orientation
@@ -93,7 +98,7 @@ class PhotoGridViewController: UIViewController {
     // MARK: Handle Layout Buttons
     
     ///It sets the tapped layout button background image to selected and the other layout buttons to .none
-    private func setupLayoutButtonBackgroundImage(_ sender: UIButton) {
+    private func setupLayoutButtonsBackgroundImage(_ sender: UIButton) {
         layoutButtons.forEach { $0.setBackgroundImage(.none, for: .normal) }
         
         let layoutButtonToSelect = layoutButtons[sender.tag]
@@ -207,7 +212,6 @@ class PhotoGridViewController: UIViewController {
         setupSwipeToShareViewsAccordingToInterfaceOrientation()
         swipeGestureRecognizer.numberOfTouchesRequired = 1
         view.addGestureRecognizer(swipeGestureRecognizer)
-        
     }
     
     ///It presents a UIActivityViewController when the user has swipped. An animation occurs before and after this.
@@ -239,14 +243,13 @@ class PhotoGridViewController: UIViewController {
     
     ///The photoGridView, swipeToShareLabel and arrowImageView will transform according to the interface orientation and their alpha will be set to 0
     private func setupViewsToAnimateOnSwipe() {
-        setupViewToAnimateOnSwipeAccordingToInterfaceOrientation(photoGridView)
-        setupViewToAnimateOnSwipeAccordingToInterfaceOrientation(swipeToShareLabel)
-        setupViewToAnimateOnSwipeAccordingToInterfaceOrientation(arrowImageView)
+        viewsToAnimate.forEach { setupViewToAnimateOnSwipeAccordingToInterfaceOrientation($0) }
     }
     
     ///It transforms a UIView and sets its alpha to 0 according to the interface orientation
     private func setupViewToAnimateOnSwipeAccordingToInterfaceOrientation(_ view: UIView) {
         guard let windowInterfaceOrientation = windowInterfaceOrientation else { return }
+        
         view.transform = windowInterfaceOrientation.isPortrait ?
             CGAffineTransform(translationX: 0, y: -30) :
             CGAffineTransform(translationX: -30, y: 0)
@@ -255,9 +258,7 @@ class PhotoGridViewController: UIViewController {
     
     ///The photoGridView, swipeToShareLabel and arrowImageView will transform to .identity and their alpha will be set to 1
     private func setupViewsToAnimateOnCompletionOfActivityViewController() {
-        setupViewToAnimateOnCompletionOfActivityViewController(photoGridView)
-        setupViewToAnimateOnCompletionOfActivityViewController(swipeToShareLabel)
-        setupViewToAnimateOnCompletionOfActivityViewController(arrowImageView)
+        viewsToAnimate.forEach { setupViewToAnimateOnCompletionOfActivityViewController($0) }
     }
     
     ///It transforms a UIView to .identity and sets its alpha to 1
