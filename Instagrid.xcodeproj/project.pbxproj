@@ -17,7 +17,6 @@
 		ACE0F4DE240D6C23002F738E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACE0F4DC240D6C23002F738E /* Main.storyboard */; };
 		ACE0F4E0240D6C25002F738E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACE0F4DF240D6C25002F738E /* Assets.xcassets */; };
 		ACE0F4E3240D6C25002F738E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACE0F4E1240D6C25002F738E /* LaunchScreen.storyboard */; };
-		ACE0F4EC240DBE85002F738E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ACE0F4EB240DBE85002F738E /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +32,6 @@
 		ACE0F4DF240D6C25002F738E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ACE0F4E2240D6C25002F738E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ACE0F4E4240D6C25002F738E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ACE0F4EB240DBE85002F738E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +78,6 @@
 				ACE0F4E4240D6C25002F738E /* Info.plist */,
 				AC3C434C242BD9EE00702181 /* Delm-Medium.otf */,
 				AC3C434E242BDA0400702181 /* ThirstySoftRegular.otf */,
-				ACE0F4EB240DBE85002F738E /* Default-568h@2x.png */,
 				ACE0F4D6240D6C23002F738E /* AppDelegate.swift */,
 				ACE0F4D8240D6C23002F738E /* SceneDelegate.swift */,
 				ACE0F4DF240D6C25002F738E /* Assets.xcassets */,
@@ -175,7 +172,6 @@
 				AC3C434F242BDA0400702181 /* ThirstySoftRegular.otf in Resources */,
 				ACE0F4E3240D6C25002F738E /* LaunchScreen.storyboard in Resources */,
 				AC3C434D242BD9EF00702181 /* Delm-Medium.otf in Resources */,
-				ACE0F4EC240DBE85002F738E /* Default-568h@2x.png in Resources */,
 				ACE0F4E0240D6C25002F738E /* Assets.xcassets in Resources */,
 				ACE0F4DE240D6C23002F738E /* Main.storyboard in Resources */,
 			);

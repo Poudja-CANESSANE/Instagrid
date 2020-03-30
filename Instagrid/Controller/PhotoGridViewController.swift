@@ -23,21 +23,16 @@ class PhotoGridViewController: UIViewController {
     
     @IBOutlet var layoutButtons: [UIButton]!
     
-    
-    
-    
     // MARK: Methods
     
-    ///It builds the chosen photoLayout in the photoGridView when the user tap on one of the layout button (those at the bottom of the screen)
+    ///It builds the chosen photoLayout in the photoGridView when the user tap on one of the layout button (those at the bottom of the screen) and updates the 4 layout buttons background image
     @IBAction func didTapOnLayoutButton(sender: UIButton) {
-        
-        setupLayoutButtonsBackgroundImage(sender)
-        
         let photoLayout = sender.tag == 3 ?
             photoLayoutProvider.getRandomPhotoLayout() :
             photoLayoutProvider.photoLayouts[sender.tag]
         
         setupLayout(from: photoLayout)
+        setupLayoutButtonsBackgroundImage(sender)
     }
     
     override func viewDidLoad() {
@@ -47,7 +42,7 @@ class PhotoGridViewController: UIViewController {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        
+
         coordinator.animate(alongsideTransition: { (context) in
             self.setupSwipeToShareViewsAccordingToInterfaceOrientation()
         })
@@ -90,9 +85,18 @@ class PhotoGridViewController: UIViewController {
     ///It sets the swipeGestureRecognizer's direction, swipeToShareLabel's text and arrowImageView's image according to the interface orientation
     private func setupSwipeToShareViewsAccordingToInterfaceOrientation() {
         guard let windowInterfaceOrientation = windowInterfaceOrientation else { return }
-        swipeGestureRecognizer.direction = windowInterfaceOrientation.isLandscape ? .left : .up
-        swipeToShareLabel.text = windowInterfaceOrientation.isLandscape ? "Swipe left to share" : "Swipe up to share"
-        arrowImageView.image = windowInterfaceOrientation.isLandscape ? UIImage(named: "Arrow Left") : UIImage(named: "Arrow Up")
+        
+        swipeGestureRecognizer.direction = windowInterfaceOrientation.isLandscape ?
+        .left :
+        .up
+        
+        swipeToShareLabel.text = windowInterfaceOrientation.isLandscape ?
+        "Swipe left to share" :
+        "Swipe up to share"
+        
+        arrowImageView.image = windowInterfaceOrientation.isLandscape ?
+        UIImage(named: "Arrow Left") :
+        UIImage(named: "Arrow Up")
     }
     
     // MARK: Handle Layout Buttons
@@ -133,6 +137,7 @@ class PhotoGridViewController: UIViewController {
             photoButton.backgroundColor = UIColor.white
             photoButton.setImage(UIImage(named: "Plus"), for: .normal)
             photoButton.addTarget(self, action: #selector(onPhotoButtonTapped), for: .touchUpInside)
+           
             stackView.addArrangedSubview(photoButton)
         }
     }
@@ -186,7 +191,8 @@ class PhotoGridViewController: UIViewController {
         
         present(alertController, animated: true)
     }
-    ///It presents a UIImagePickerController with .photolibrary as source type
+    
+    ///It presents a UIImagePickerController with .photoLibrary as source type
     private func photoAlertHandler(alertAction: UIAlertAction) {
         presentImagePickerController(from: .photoLibrary)
     }
@@ -210,7 +216,6 @@ class PhotoGridViewController: UIViewController {
     private func setupSwipeToShare() {
         swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeToShare))
         setupSwipeToShareViewsAccordingToInterfaceOrientation()
-        swipeGestureRecognizer.numberOfTouchesRequired = 1
         view.addGestureRecognizer(swipeGestureRecognizer)
     }
     
@@ -253,6 +258,7 @@ class PhotoGridViewController: UIViewController {
         view.transform = windowInterfaceOrientation.isPortrait ?
             CGAffineTransform(translationX: 0, y: -30) :
             CGAffineTransform(translationX: -30, y: 0)
+        
         view.alpha = 0
     }
     
@@ -283,12 +289,12 @@ extension PhotoGridViewController: UIImagePickerControllerDelegate {
         currentPhotoButton.setImage(image, for: .normal)
         currentPhotoButton.imageView?.contentMode = .scaleAspectFill
         
-        picker.dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true)
     }
     
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true)
     }
 }
 
