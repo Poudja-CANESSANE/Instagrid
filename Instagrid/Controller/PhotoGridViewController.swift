@@ -87,16 +87,15 @@ class PhotoGridViewController: UIViewController {
         guard let windowInterfaceOrientation = windowInterfaceOrientation else { return }
         
         swipeGestureRecognizer.direction = windowInterfaceOrientation.isLandscape ?
-        .left :
-        .up
+            .left :
+            .up
         
         swipeToShareLabel.text = windowInterfaceOrientation.isLandscape ?
-        "Swipe left to share" :
-        "Swipe up to share"
+            "Swipe left to share" : "Swipe up to share"
         
         arrowImageView.image = windowInterfaceOrientation.isLandscape ?
-        UIImage(named: "Arrow Left") :
-        UIImage(named: "Arrow Up")
+            UIImage(named: "Arrow Left") :
+            UIImage(named: "Arrow Up")
     }
     
     // MARK: Handle Layout Buttons
