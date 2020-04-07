@@ -42,7 +42,7 @@ class PhotoGridViewController: UIViewController {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-
+        
         coordinator.animate(alongsideTransition: { (_) in
             self.setupSwipeToShareViewsAccordingToInterfaceOrientation()
         })
@@ -138,7 +138,7 @@ class PhotoGridViewController: UIViewController {
             photoButton.backgroundColor = UIColor.white
             photoButton.setImage(UIImage(named: "Plus"), for: .normal)
             photoButton.addTarget(self, action: #selector(onPhotoButtonTapped), for: .touchUpInside)
-           
+            
             stackView.addArrangedSubview(photoButton)
         }
     }
@@ -246,7 +246,7 @@ class PhotoGridViewController: UIViewController {
             options: .curveEaseOut,
             animations: setupViewsToAnimateOnSwipe,
             completion: { (_) in
-            self.present(activityController, animated: true)
+                self.present(activityController, animated: true)
         })
         
         activityController.completionWithItemsHandler = { (_, _, _, _) in
@@ -255,7 +255,7 @@ class PhotoGridViewController: UIViewController {
                 delay: 0,
                 options: .curveEaseOut,
                 animations: {
-                self.setupViewsToAnimateOnCompletionOfActivityViewController()
+                    self.setupViewsToAnimateOnCompletionOfActivityViewController()
             })
         }
     }
@@ -296,7 +296,7 @@ class PhotoGridViewController: UIViewController {
     }
 }
 
-    // MARK: - EXTENSIONS
+// MARK: - EXTENSIONS
 
 extension PhotoGridViewController: UIImagePickerControllerDelegate {
     
