@@ -43,7 +43,7 @@ class PhotoGridViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
 
-        coordinator.animate(alongsideTransition: { (context) in
+        coordinator.animate(alongsideTransition: { (_) in
             self.setupSwipeToShareViewsAccordingToInterfaceOrientation()
         })
     }
@@ -53,7 +53,7 @@ class PhotoGridViewController: UIViewController {
     // MARK: Properties
     
     private let photoLayoutProvider = PhotoLayoutProvider()
-    private var swipeGestureRecognizer: UISwipeGestureRecognizer!
+    private var swipeGestureRecognizer: UISwipeGestureRecognizer?
     
     ///This is the photo button tapped by the user
     private var currentPhotoButton: UIButton?
@@ -84,7 +84,9 @@ class PhotoGridViewController: UIViewController {
     
     ///It sets the swipeGestureRecognizer's direction, swipeToShareLabel's text and arrowImageView's image according to the interface orientation
     private func setupSwipeToShareViewsAccordingToInterfaceOrientation() {
-        guard let windowInterfaceOrientation = windowInterfaceOrientation else { return }
+        guard
+            let windowInterfaceOrientation = windowInterfaceOrientation,
+            let swipeGestureRecognizer = swipeGestureRecognizer else { return }
         
         swipeGestureRecognizer.direction = windowInterfaceOrientation.isLandscape ?
             .left :
@@ -156,9 +158,14 @@ class PhotoGridViewController: UIViewController {
     
     ///It presents an alert telling that any photo sources are available
     private func presentSourcesNotAvailableAlert() {
-        let alertController = UIAlertController(title: "Photo Sources Unavailable", message: "Your device doesn't support any photo sources", preferredStyle: .alert)
+        let alertController = UIAlertController(
+            title: "Photo Sources Unavailable",
+            message: "Your device doesn't support any photo sources",
+            preferredStyle: .alert)
         
-        let confirmAlertAction = UIAlertAction(title: "Okay", style: .default)
+        let confirmAlertAction = UIAlertAction(
+            title: "Okay",
+            style: .default)
         
         alertController.addAction(confirmAlertAction)
         
@@ -168,7 +175,10 @@ class PhotoGridViewController: UIViewController {
     ///It presents an alert asking the user to choose a photo source: photo library or camera
     private func presentSourcesChoiceAlert() {
         
-        let alertController = UIAlertController(title: "Choose a source", message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(
+            title: "Choose a source",
+            message: nil,
+            preferredStyle: .actionSheet)
         
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             let photoAlertAction = UIAlertAction(
@@ -213,8 +223,14 @@ class PhotoGridViewController: UIViewController {
     
     ///It adds to the view a UISwipeGestureRecognizer
     private func setupSwipeToShare() {
-        swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeToShare))
+        swipeGestureRecognizer = UISwipeGestureRecognizer(
+            target: self,
+            action: #selector(didSwipeToShare))
+        
         setupSwipeToShareViewsAccordingToInterfaceOrientation()
+        
+        guard let swipeGestureRecognizer = swipeGestureRecognizer else { return }
+        
         view.addGestureRecognizer(swipeGestureRecognizer)
     }
     
@@ -224,14 +240,21 @@ class PhotoGridViewController: UIViewController {
             activityItems: [convertPhotoGridViewAsImage()],
             applicationActivities: nil)
         
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-            self.setupViewsToAnimateOnSwipe()
-        }, completion: { (_) in
+        UIView.animate(
+            withDuration: 0.3,
+            delay: 0,
+            options: .curveEaseOut,
+            animations: setupViewsToAnimateOnSwipe,
+            completion: { (_) in
             self.present(activityController, animated: true)
         })
         
         activityController.completionWithItemsHandler = { (_, _, _, _) in
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+            UIView.animate(
+                withDuration: 0.3,
+                delay: 0,
+                options: .curveEaseOut,
+                animations: {
                 self.setupViewsToAnimateOnCompletionOfActivityViewController()
             })
         }
