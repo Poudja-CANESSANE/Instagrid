@@ -10,9 +10,9 @@ import Foundation
 
 struct PhotoLayout {
     
-// MARK: - INTERNAL
+    // MARK: - INTERNAL
     
-// MARK: Properties
+    // MARK: Properties
     
     let topPhotoCount: Int
     let bottomPhotoCount: Int

@@ -10,9 +10,9 @@ import Foundation
 
 struct PhotoLayoutProvider {
     
-// MARK: - INTERNAL
+    // MARK: - INTERNAL
     
-// MARK: Properties
+    // MARK: Properties
     
     ///This array contains 3 different layouts
     let photoLayouts: [PhotoLayout] = [
@@ -21,7 +21,7 @@ struct PhotoLayoutProvider {
         PhotoLayout(topPhotoCount: 2, bottomPhotoCount: 2)
     ]
     
-// MARK: Methods
+    // MARK: Methods
     
     ///Returns a random PhotoLayout  
     func getRandomPhotoLayout() -> PhotoLayout {
